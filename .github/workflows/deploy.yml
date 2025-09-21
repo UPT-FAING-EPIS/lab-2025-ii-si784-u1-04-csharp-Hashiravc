@@ -141,8 +141,7 @@ jobs:
         id: html2markdown
         uses: rknj/html2markdown@v1.1.0
         with:
-            html-file: "infra/infracost-report.html"
-
+            html-file: "infra/infracost-report.html" #hola
       - name: Upload infracost report
         run: |
             echo "## infracost Report" >> $GITHUB_STEP_SUMMARY
