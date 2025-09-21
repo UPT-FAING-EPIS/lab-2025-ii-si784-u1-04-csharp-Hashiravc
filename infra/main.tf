@@ -37,7 +37,7 @@ resource "random_integer" "ri" {
 # Create the resource group
 resource "azurerm_resource_group" "rg" {
   name     = "upt-arg-${random_integer.ri.result}"
-  location = "westus2"
+  location = "brazilsouth"
 }
 
 # Create the Linux App Service Plan
