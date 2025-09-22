@@ -1,8 +1,8 @@
 name: Construcción y despliegue de una aplicación MVC a Azure
 
 env:
-  AZURE_WEBAPP_NAME: upt-awa-729  # Aqui va el nombre de su aplicación
-  DOTNET_VERSION: '8'              # la versión de .NET
+  AZURE_WEBAPP_NAME: upt-awa-729  # Aquí va el nombre de tu aplicación
+  DOTNET_VERSION: '8'              # La versión de .NET
 
 on:
   push:
@@ -46,7 +46,6 @@ jobs:
     environment:
       name: 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
       - name: Desplegar a Azure Web App
         id: deploy-to-webapp
@@ -54,4 +53,8 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: ghcr.io/${{ github.actor | lower }}/shorten:${{ github.sha }}
+          # Usamos la misma variable de minúsculas que en build
+          images: ghcr.io/$DOCKER_USER/shorten:$GITHUB_SHA
+        env:
+          DOCKER_USER: ${{ github.actor }}
+          GITHUB_SHA: ${{ github.sha }}
