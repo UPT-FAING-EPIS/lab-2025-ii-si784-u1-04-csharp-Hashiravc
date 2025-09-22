@@ -34,11 +34,11 @@ resource "random_integer" "ri" {
   max = 999
 }
 
-# Create the resource group
-resource "azurerm_resource_group" "rg" {
-  name     = "upt-arg-${random_integer.ri.result}"
-  location = "brazilsouth"
-}
+# Si ya tienes un Resource Group existente, no lo vuelvas a crear
+#resource "azurerm_resource_group" "rg" {
+#  name     = "upt-arg-${random_integer.ri.result}"
+#  location = "brazilsouth"
+#}
 
 # Create the Linux App Service Plan
 resource "azurerm_service_plan" "appserviceplan" {
@@ -61,7 +61,7 @@ resource "azurerm_linux_web_app" "webapp" {
     minimum_tls_version = "1.2"
     always_on = false
     application_stack {
-      docker_image_name = "patrickcuadros/shorten:latest"
+      docker_image_name   = "patrickcuadros/shorten:latest"
       docker_registry_url = "https://index.docker.io"      
     }
   }
@@ -83,8 +83,9 @@ resource "azurerm_mssql_firewall_rule" "sqlaccessrule" {
   end_ip_address   = "255.255.255.255"
 }
 
-resource "azurerm_mssql_database" "sqldb" {
-  name      = "shorten"
-  server_id = azurerm_mssql_server.sqlsrv.id
-  sku_name = "Free"
-}
+# Comentado para evitar el error FreeDbAlreadyExists
+#resource "azurerm_mssql_database" "sqldb" {
+#  name      = "shorten"
+#  server_id = azurerm_mssql_server.sqlsrv.id
+#  sku_name  = "Free"
+#}
